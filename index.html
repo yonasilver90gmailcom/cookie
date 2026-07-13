@@ -115,19 +115,6 @@
             background-color: #4e342e;
         }
 
-        #delivery-address-section {
-            display: none;
-            background-color: #fffde7;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px dashed #fbc02d;
-            margin-bottom: 20px;
-        }
-
-        #delivery-address-section label {
-            color: #f57f17;
-        }
-
         #sold-out-notice {
             display: none;
             text-align: center;
@@ -175,13 +162,8 @@
                 <option value="2-dozen-delivery">2 Dozen Cookies - Friday Delivery ($21.98 + $4.99 delivery fee)</option>
             </select>
 
-            <div id="delivery-address-section">
-                <label for="delivery_address">Delivery Address & Specific Instructions</label>
-                <textarea id="delivery_address" name="delivery_address" rows="3" placeholder="Street address, building/apartment number, buzzer code, or drop-off instructions..."></textarea>
-            </div>
-
-            <label for="address_or_notes">Special Requests / Pickup Notes</label>
-            <textarea id="address_or_notes" name="address_or_notes" rows="2" placeholder="Any dietary notes or general requests..."></textarea>
+            <label id="notes-label" for="address_or_notes">Address / Special Notes</label>
+            <textarea id="address_or_notes" name="address_or_notes" rows="4" placeholder="If delivery is selected, please enter your full street address, unit/apartment number, and specific delivery or buzzer instructions here."></textarea>
 
             <button type="submit">Submit Pre-Order</button>
         </form>
@@ -190,18 +172,16 @@
     <script>
         const form = document.getElementById("cookie-form");
         const orderSelection = document.getElementById("order_selection");
-        const deliverySection = document.getElementById("delivery-address-section");
-        const deliveryInput = document.getElementById("delivery_address");
+        const notesInput = document.getElementById("address_or_notes");
 
-        // Show/hide address field and toggle 'required' state depending on selection
+        // Dynamically make the field strictly mandatory if delivery is picked
         orderSelection.addEventListener("change", function() {
             if (this.value.includes("delivery")) {
-                deliverySection.style.display = "block";
-                deliveryInput.required = true;
+                notesInput.required = true;
+                notesInput.placeholder = "MANDATORY FOR DELIVERY: Please include your complete address, apartment/unit number, buzzer codes, or any specific drop-off instructions.";
             } else {
-                deliverySection.style.display = "none";
-                deliveryInput.required = false;
-                deliveryInput.value = ""; // Clear if they switched back to pickup
+                notesInput.required = false;
+                notesInput.placeholder = "If delivery is selected, please enter your full street address, unit/apartment number, and specific delivery or buzzer instructions here.";
             }
         });
 
